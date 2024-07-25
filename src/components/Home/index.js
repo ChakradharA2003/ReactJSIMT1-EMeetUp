@@ -1,4 +1,4 @@
-import {withRouter, Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import Header from '../Header'
 import UserDetailsContext from '../../Context/UserDetailsContext'
 import {
@@ -13,27 +13,25 @@ import {
   UserTopic,
 } from './HomeStyle'
 
-const Home = props => (
+const Home = () => (
   <UserDetailsContext.Consumer>
     {value => {
-      const {name, topic} = value
-      const renderView =
-        name.length !== 0 ? (
-          <WelcomeUser>
-            <UserName>Hello {name}</UserName>
-            <UserTopic>Welcome to {topic}</UserTopic>
-          </WelcomeUser>
-        ) : (
-          <WelcomeToRegisterContainer>
-            <WelcomeHeading>Welcome to Meetup</WelcomeHeading>
-            <WelcomeDescription>
-              Please Register for the topic
-            </WelcomeDescription>
-            <Link to="/register">
-              <RegisterButton type="button">Register</RegisterButton>
-            </Link>
-          </WelcomeToRegisterContainer>
-        )
+      const {name, topic, isRegistered} = value
+      console.log(isRegistered)
+      const renderView = isRegistered ? (
+        <WelcomeUser>
+          <UserName>Hello {name}</UserName>
+          <UserTopic>Welcome to {topic}</UserTopic>
+        </WelcomeUser>
+      ) : (
+        <WelcomeToRegisterContainer>
+          <WelcomeHeading>Welcome to Meetup</WelcomeHeading>
+          <WelcomeDescription>Please Register for the topic</WelcomeDescription>
+          <Link to="/register">
+            <RegisterButton>Register</RegisterButton>
+          </Link>
+        </WelcomeToRegisterContainer>
+      )
       return (
         <div>
           <Header />
@@ -49,4 +47,4 @@ const Home = props => (
     }}
   </UserDetailsContext.Consumer>
 )
-export default withRouter(Home)
+export default Home

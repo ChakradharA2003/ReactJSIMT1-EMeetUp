@@ -50,19 +50,16 @@ class App extends Component {
     }
   }
 
-  changeRoute = () => <Redirect to="/" />
-
-  onClickedRegister = () => {
+  onClickedRegister = event => {
+    event.preventDefault()
     const {name} = this.state
     if (name === '') {
       this.renderErrorMessage()
-    }
-    this.setState(
-      prevState => ({
+    } else {
+      this.setState(prevState => ({
         isRegistered: !prevState.isRegistered,
-      }),
-      this.changeRoute,
-    )
+      }))
+    }
   }
 
   onChangeName = value => {
@@ -71,11 +68,11 @@ class App extends Component {
 
   onChangeTopic = value => {
     this.setState({topic: value})
+    console.log(value)
   }
 
   render() {
     const {isRegistered, name, topic, showErrorMessage, error} = this.state
-    console.log(isRegistered)
     return (
       <UserDetailsContext.Provider
         value={{

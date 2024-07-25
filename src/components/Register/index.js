@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {withRouter, Redirect} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
 import Header from '../Header'
 
@@ -43,10 +43,24 @@ const topicsList = [
 ]
 
 class Register extends Component {
+  onSubmitForm = event => {
+    event.preventDefault()
+    const {history} = this.props
+    history.replace('/')
+    return (
+      <UserDetailsContext.Consumer>
+        {value => {
+          const {onClickedRegister} = value
+          return onClickedRegister()
+        }}
+      </UserDetailsContext.Consumer>
+    )
+  }
+
   render() {
     return (
       <UserDetailsContext.Consumer>
-        {data => {
+        {value => {
           const {
             name,
             topic,
@@ -55,11 +69,7 @@ class Register extends Component {
             onClickedRegister,
             error,
             showErrorMessage,
-            isRegistered,
-          } = data
-          if (isRegistered === false) {
-            return <Redirect to="/" />
-          }
+          } = value
           return (
             <div>
               <Header />
@@ -69,7 +79,7 @@ class Register extends Component {
                     src="https://assets.ccbp.in/frontend/react-js/meetup/website-register-img.png"
                     alt="website register"
                   />
-                  <RegisterInputDetails>
+                  <RegisterInputDetails as="form" onSubmit={this.onSubmitForm}>
                     <RegisterHeading>Let us join</RegisterHeading>
                     <InputContainer>
                       <LabelElement htmlFor="name">NAME</LabelElement>
@@ -83,6 +93,7 @@ class Register extends Component {
                     <InputContainer>
                       <LabelElement htmlFor="topic">TOPIC</LabelElement>
                       <Select
+                        as="select"
                         id="topic"
                         value={topic}
                         onChange={event => onChangeTopic(event.target.value)}
@@ -95,7 +106,7 @@ class Register extends Component {
                       </Select>
                     </InputContainer>
                     <RegisterButton
-                      type="button"
+                      type="submit"
                       onClick={() => onClickedRegister()}
                     >
                       Register
