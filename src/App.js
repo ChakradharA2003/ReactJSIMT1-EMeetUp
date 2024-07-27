@@ -1,6 +1,6 @@
 import {Component} from 'react'
 
-import {Switch, Route, Redirect} from 'react-router-dom'
+import {Switch, Route, Redirect, withRouter} from 'react-router-dom'
 
 import Home from './components/Home'
 import Register from './components/Register'
@@ -59,6 +59,8 @@ class App extends Component {
       this.setState(prevState => ({
         isRegistered: !prevState.isRegistered,
       }))
+      const {history} = this.props
+      history.replace('/')
     }
   }
 
@@ -97,4 +99,4 @@ class App extends Component {
     )
   }
 }
-export default App
+export default withRouter(App)

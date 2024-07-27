@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom'
 import Header from '../Header'
 
 import UserDetailsContext from '../../Context/UserDetailsContext'
+import './index.css'
 
 import {
   MainContainer,
@@ -43,20 +44,6 @@ const topicsList = [
 ]
 
 class Register extends Component {
-  onSubmitForm = event => {
-    event.preventDefault()
-    const {history} = this.props
-    history.replace('/')
-    return (
-      <UserDetailsContext.Consumer>
-        {value => {
-          const {onClickedRegister} = value
-          return onClickedRegister()
-        }}
-      </UserDetailsContext.Consumer>
-    )
-  }
-
   render() {
     return (
       <UserDetailsContext.Consumer>
@@ -79,7 +66,7 @@ class Register extends Component {
                     src="https://assets.ccbp.in/frontend/react-js/meetup/website-register-img.png"
                     alt="website register"
                   />
-                  <RegisterInputDetails as="form" onSubmit={this.onSubmitForm}>
+                  <RegisterInputDetails as="form" onSubmit={onClickedRegister}>
                     <RegisterHeading>Let us join</RegisterHeading>
                     <InputContainer>
                       <LabelElement htmlFor="name">NAME</LabelElement>
@@ -91,25 +78,22 @@ class Register extends Component {
                       />
                     </InputContainer>
                     <InputContainer>
-                      <LabelElement htmlFor="topic">TOPIC</LabelElement>
-                      <Select
-                        as="select"
+                      <LabelElement htmlFor="topic">TOPICS</LabelElement>
+                      <select
                         id="topic"
+                        className="select-style"
                         value={topic}
                         onChange={event => onChangeTopic(event.target.value)}
                       >
                         {topicsList.map(top => (
-                          <option key={top.id} value={top.displayText}>
+                          <option key={top.id} value={top.id}>
                             {top.displayText}
                           </option>
                         ))}
-                      </Select>
+                      </select>
                     </InputContainer>
-                    <RegisterButton
-                      type="submit"
-                      onClick={() => onClickedRegister()}
-                    >
-                      Register
+                    <RegisterButton type="submit" onClick={onClickedRegister}>
+                      Register Now
                     </RegisterButton>
                     {error && <ErrorMessage>{showErrorMessage}</ErrorMessage>}
                   </RegisterInputDetails>
